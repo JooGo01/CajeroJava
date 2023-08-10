@@ -12,7 +12,7 @@ public class ConectorBD {
 	}
 
 	private void crearConnecionInicial() {
-		String url = "jdbc:mysql://localhost:3463/programacion_avanzada";
+		String url = "jdbc:mysql://localhost:3463/mydbb";
 		String usuario = "root";
 		String contraseña = "";
 

@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import entities.Cliente;
+import entities.Sucursal;
 import mapper.BaseMapper;
 import mapper.ClienteMapper;
 
@@ -143,6 +144,31 @@ public class ClienteController extends ControladorBase<Cliente>{
 			prepareStatement.setString(5, cliente.getContrasenia());
 			prepareStatement.setString(6, cliente.getUsuario());
 			prepareStatement.setInt(7, cliente.getPin());
+			response=prepareStatement.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	public Integer insert(Cliente request, Sucursal sucursal) {
+		String query="INSERT INTO CLIENTE(id_cliente, nombre, direccion, numero_tarjeta, contrasenia, usuario, pin, sucursal_id_sucursal) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		return insert(request, sucursal, query);
+	}
+	
+	@Override
+	protected Integer insert(Cliente cliente, Sucursal sucursal, String sql) {
+		Integer response=0;
+		try {
+			PreparedStatement prepareStatement = ConectorBD.getInstance().getConnection().prepareStatement(sql);
+			prepareStatement.setLong(1, cliente.getId());
+			prepareStatement.setString(2, cliente.getNombre());
+			prepareStatement.setString(3, cliente.getDireccion());
+			prepareStatement.setString(4, cliente.getNumeroTarjeta());
+			prepareStatement.setString(5, cliente.getContrasenia());
+			prepareStatement.setString(6, cliente.getUsuario());
+			prepareStatement.setInt(7, cliente.getPin());
+			prepareStatement.setLong(8, sucursal.getId());
 			response=prepareStatement.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

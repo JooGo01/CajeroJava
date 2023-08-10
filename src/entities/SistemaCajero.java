@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import controlador.*;
 import entities.*;
@@ -86,7 +87,7 @@ public class SistemaCajero {
         tc.insert(tforig_dest);
         controladorBase.ejecutarUpdate("UPDATE CUENTA SET BALANCE=" + (cuentaOrigen.getBalance()-monto) + " WHERE ID_CUENTA=" + cuentaOrigen.getId());
         id_transaccion=getLastIdTransaccion()+1;
-        Transferencia tfdest_orig= new Transferencia(tokenNumber, sqlDate, monto, tokenNumber, cuentaDestino, cuentaOrigen, "Recibe Transferencia", "Transferencia");
+        Transferencia tfdest_orig= new Transferencia(id_transaccion, sqlDate, monto, tokenNumber, cuentaDestino, cuentaOrigen, "Recibe Transferencia", "Transferencia");
         controladorBase.ejecutarUpdate("UPDATE CUENTA SET BALANCE=" + (cuentaDestino.getBalance()+monto) + " WHERE ID_CUENTA=" + cuentaDestino.getId());
         tc.insert(tfdest_orig);
 	}
@@ -100,14 +101,18 @@ public class SistemaCajero {
 		Cuenta cuenta = new Cuenta();
 		CuentaController cc= new CuentaController();
 		List<Cuenta> listaCuentas= new ArrayList<Cuenta>();
+		Scanner scanner = new Scanner(System.in);
+		int opcion;
 		listaCuentas=cc.getByOwner(cliente);
-		for (int i=0;i<listaCuentas.size();i++) {
-			//aca agregale la logica con el switch para que pueda elegir la cuenta y toda la vuelta
-			System.out.println(listaCuentas.get(i));
-			//lo estoy forzando para poder hacer las pruebas nada mas
-			cuenta=listaCuentas.get(0);
-		}
 		if(listaCuentas.size()>0) {
+			for (int i=0;i<listaCuentas.size();i++) {
+				System.out.println(i + " - Nro Cuenta: " + listaCuentas.get(i).getNroCuenta());
+			}
+			System.out.print("Selecciona una cuenta: ");
+			opcion = scanner.nextInt();
+			do {
+				cuenta=listaCuentas.get(opcion);
+			}while(opcion<0 || opcion>=listaCuentas.size());
 			return cuenta;
 		}else {
 			return null;
@@ -119,16 +124,79 @@ public class SistemaCajero {
 		CuentaController sc= new CuentaController();
 		List<Cuenta> listaCuentas= new ArrayList<Cuenta>();
 		listaCuentas=sc.readAll();
-		for (int i=0;i<listaCuentas.size();i++) {
-			//aca agregale la logica con el switch para que pueda elegir la cuenta y toda la vuelta
-			System.out.println(listaCuentas.get(i));
-			//lo estoy forzando para poder hacer las pruebas nada mas
-			cuenta=listaCuentas.get(1);
-		}
+		Scanner scanner = new Scanner(System.in);
+		int opcion;
 		if(listaCuentas.size()>0) {
+			for (int i=0;i<listaCuentas.size();i++) {
+				System.out.println(i + " - Nro Cuenta: " + listaCuentas.get(i).getNroCuenta());
+			}
+			System.out.print("Selecciona una cuenta destino a transferir: ");
+			opcion = scanner.nextInt();
+			do {
+				cuenta=listaCuentas.get(opcion);
+			}while(opcion<0 || opcion>=listaCuentas.size());
 			return cuenta;
 		}else {
 			return null;
 		}
+	}
+	
+	public Sucursal seleccionarSucursal() {
+		Sucursal sucursal = new Sucursal();
+		SucursalController sc= new SucursalController();
+		List<Sucursal> listaSucursal= new ArrayList<Sucursal>();
+		listaSucursal=sc.readAll();
+		Scanner scanner = new Scanner(System.in);
+		int opcion;
+		if(listaSucursal.size()>0) {
+			for (int i=0;i<listaSucursal.size();i++) {
+				System.out.println(i + " - Direccion: " + listaSucursal.get(i).getDireccion() + " - Nombre: " + listaSucursal.get(i).getNombre());
+			}
+			System.out.print("Selecciona una sucursal: ");
+			opcion = scanner.nextInt();
+			do {
+				sucursal=listaSucursal.get(opcion);
+			}while(opcion<0 || opcion>=listaSucursal.size());
+			return sucursal;
+		}else {
+			return null;
+		}
+	}
+	
+	public void creacionCuentas(Cliente c) {
+		CuentaController cc = new CuentaController();
+		Cuenta cuenta = new Cuenta();
+		String ultimo_id=controladorBase.buscarUltimoId("SELECT MAX(ID_CUENTA) AS ID FROM CUENTA");
+		cuenta.setBalance((double) 0);
+		cuenta.setId(Long.parseLong(ultimo_id)+1);
+		//que se genere un random aca
+		cuenta.setNroCuenta("11112222");
+		cuenta.setOwner(c);
+		cuenta.setTipoCuenta("Caja de Ahorro");
+		cc.insert(cuenta);
+		ultimo_id=controladorBase.buscarUltimoId("SELECT MAX(ID_CUENTA) AS ID FROM CUENTA");
+		cuenta.setBalance((double) 0);
+		cuenta.setId(Long.parseLong(ultimo_id)+1);
+		//que se genere un random aca
+		cuenta.setNroCuenta("11112223");
+		cuenta.setOwner(c);
+		cuenta.setTipoCuenta("Cuenta Corriente");
+		cc.insert(cuenta);
+	}
+	
+	public void creacionCliente(String nombre, String direccion, String contrasenia, String usuario, Integer pin) {
+		String numero_tarjeta;
+		numero_tarjeta="11112222";
+		String ultimo_id=controladorBase.buscarUltimoId("SELECT MAX(ID_CLIENTE) AS ID FROM CLIENTE");
+		//que numero_tarjeta tambien sea random
+		Cliente cliente = new Cliente();
+		ClienteController cc = new ClienteController();
+		cliente.setId(Long.parseLong(ultimo_id)+1);
+		cliente.setDireccion(direccion);
+		cliente.setUsuario(usuario);
+		cliente.setContrasenia(contrasenia);
+		cliente.setPin(pin);
+		cc.insert(cliente);
+		creacionCuentas(cliente);
 	}
 }

@@ -50,7 +50,7 @@ public class ClienteController extends ControladorBase<Cliente>{
 	public List<Cliente> getById(Long id){
 		Cliente cliente = new Cliente();
 		cliente.setId(id);
-		String query="Select * from CLIENTE where CLIENTE.id = ?";
+		String query="Select * from CLIENTE where CLIENTE.id_cliente = ?";
 		List<Cliente> response=getByParameters(cliente,query);
 		return response;
 	}
@@ -127,7 +127,7 @@ public class ClienteController extends ControladorBase<Cliente>{
 	}
 	
 	public Integer insert(Cliente request) {
-		String query="INSERT INTO CLIENTE(id, nombre, direccion, numero_tarjeta, contrasenia, usuario, pin) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String query="INSERT INTO CLIENTE(id_cliente, nombre, direccion, numero_tarjeta, contrasenia, usuario, pin) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		return insert(request, query);
 	}
 	

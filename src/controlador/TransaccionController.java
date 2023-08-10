@@ -60,7 +60,7 @@ public class TransaccionController extends ControladorBase<Transaccion>{
 	public List<Transaccion> getById(Long id){
 		Transaccion transaccion = new Transaccion();
 		transaccion.setId(id);
-		String query = "Select * from TRANSACCIONES where TRANSACCIONES.id = ?";
+		String query = "Select * from TRANSACCIONES where TRANSACCIONES.id_transaccion = ?";
 		List<Transaccion> response = getByParameters(transaccion, query);
 		return response;
 	}
@@ -92,7 +92,7 @@ public class TransaccionController extends ControladorBase<Transaccion>{
 	public List<Transaccion> getByCuentaOrigen(Cuenta cuentaOrigen){
 		Transaccion transaccion = new Transaccion();
 		transaccion.setCuentaOrigen(cuentaOrigen);
-		String query = "Select * from TRANSACCIONES where TRANSACCIONES.id_cuenta = ?";
+		String query = "Select * from TRANSACCIONES where TRANSACCIONES.cuenta_id_cuenta = ?";
 		List<Transaccion> response = getByParameters(transaccion, query);
 		return response;
 	}
@@ -129,7 +129,7 @@ public class TransaccionController extends ControladorBase<Transaccion>{
 	}
 	
 	public Integer insert(Transaccion request) {
-		String query = "INSERT INTO TRANSACCIONES(id, fecha_transaccion, monto, nro_transaccion, id_cuenta, tipo_transaccion) VALUES (?,?,?,?,?,?)";
+		String query = "INSERT INTO TRANSACCIONES(id_transaccion, fecha_transaccion, monto, nro_transaccion, cuenta_id_cuenta, tipo_transaccion) VALUES (?,?,?,?,?,?)";
 		return insert(request, query);
 	}
 	

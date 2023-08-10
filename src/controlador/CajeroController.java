@@ -26,11 +26,11 @@ public class CajeroController extends ControladorBase<Cajero>{
 			}
 			
 			if(request.getUbicacion()!=null) {
-				prepareStatement.setString(2, request.getUbicacion());
+				prepareStatement.setString(3, request.getUbicacion());
 			}
 			
 			if(request.getSucursal()!=null) {
-				prepareStatement.setObject(3, request.getSucursal());
+				prepareStatement.setObject(2, request.getSucursal());
 			}
 			
 			ResultSet resultado = prepareStatement.executeQuery();
@@ -46,7 +46,7 @@ public class CajeroController extends ControladorBase<Cajero>{
 	public List<Cajero> getById(Long id){
 		Cajero cajero= new Cajero();
 		cajero.setId(id);
-		String query ="Select * from CAJERO where CAJERO.id = ?";
+		String query ="Select * from CAJERO where CAJERO.id_cajero = ?";
 		List<Cajero> response = getByParameters(cajero,query);
 		return response;
 	}
@@ -90,7 +90,7 @@ public class CajeroController extends ControladorBase<Cajero>{
 	}
 	
 	public Integer insert (Cajero request) {
-		String query="INSERT INTO CAJERO(id, ubicacion, id_sucursal) VALUES (?,?,?)";
+		String query="INSERT INTO CAJERO(id_cajero, id_sucursal, ubicacion) VALUES (?,?,?)";
 		return insert(request, query);
 	}
 	
@@ -100,8 +100,8 @@ public class CajeroController extends ControladorBase<Cajero>{
 		try {
 			PreparedStatement prepareStatement=ConectorBD.getInstance().getConnection().prepareStatement(sql);
 			prepareStatement.setLong(1, cajero.getId());
-			prepareStatement.setString(2, cajero.getUbicacion());
-			prepareStatement.setLong(3, cajero.getSucursal().getId());
+			prepareStatement.setString(3, cajero.getUbicacion());
+			prepareStatement.setLong(2, cajero.getSucursal().getId());
 			response = prepareStatement.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

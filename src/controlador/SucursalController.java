@@ -52,7 +52,7 @@ public class SucursalController extends ControladorBase<Sucursal>{
 	public List<Sucursal> getById(Long id){
 		Sucursal sucursal = new Sucursal();
 		sucursal.setId(id);
-		String query ="Select * from SUCURSAL where SUCURSAL.id = ?";
+		String query ="Select * from SUCURSAL where SUCURSAL.id_sucursal = ?";
 		List<Sucursal> response = getByParameters(sucursal,query);
 		return response;
 	}
@@ -104,7 +104,7 @@ public class SucursalController extends ControladorBase<Sucursal>{
 	}
 	
 	public Integer insert (Sucursal request) {
-		String query="INSERT INTO SUCURSAL(id, codigo, direccion, nombre) VALUES (?,?,?,?)";
+		String query="INSERT INTO SUCURSAL(id_sucursal, codigo, direccion, nombre) VALUES (?,?,?,?)";
 		return insert(request, query);
 	}
 	

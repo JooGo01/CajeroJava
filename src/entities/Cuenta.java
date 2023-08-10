@@ -9,14 +9,16 @@ public class Cuenta implements BaseEntity<Cuenta> {
 	public Cliente owner;
 	public String nroCuenta;
 	public Double balance;
+	public String tipoCuenta;
 	
 //Constructor
-	public Cuenta(Long id, Cliente owner, String nroCuenta, Double balance) {
+	public Cuenta(Long id, Cliente owner, String nroCuenta, Double balance, String tipoCuenta) {
 		super();
 		this.id = id;
 		this.owner = owner;
 		this.nroCuenta = nroCuenta;
 		this.balance = balance;
+		this.tipoCuenta=tipoCuenta;
 	}
 
 	public Cuenta() {
@@ -46,6 +48,10 @@ public Long getId() {
 	public Double getBalance() {
 		return balance;
 	}
+	
+	public String getTipoCuenta() {
+		return tipoCuenta;
+	}
 
 
 //Setters
@@ -71,6 +77,9 @@ public Long getId() {
 		this.balance = balance;
 	}
 
+	public void setTipoCuenta(String tipoCuenta) {
+		this.tipoCuenta=tipoCuenta;
+	}
 
 
 //Methods

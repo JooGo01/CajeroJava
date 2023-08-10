@@ -76,6 +76,14 @@ public class CuentaController extends ControladorBase<Cuenta>{
 		return response;
 	}
 	
+	public List<Cuenta> getByTipoCuenta(String tipoCuenta){
+		Cuenta cuenta = new Cuenta();
+		cuenta.setTipoCuenta(tipoCuenta);
+		String query = "Select * from CUENTA where CUENTA.tipo_cuenta = ?";
+		List <Cuenta> response = getByParameters(cuenta, query);
+		return response;
+	}
+	
 	public List<Cuenta> readAll(){
 		CuentaMapper mappeador = new CuentaMapper();
 		List<Cuenta> cuenta = new ArrayList<Cuenta>();
@@ -99,7 +107,7 @@ public class CuentaController extends ControladorBase<Cuenta>{
 	}
 	
 	public Integer insert(Cuenta request) {
-		String query="INSERT INTO CUENTA(id_cuenta, id_cuenta_cliente, nro_cuenta, balance) VALUES (?,?,?,?)";
+		String query="INSERT INTO CUENTA(id_cuenta, cliente_id_cliente, nro_cuenta, balance, tipo_cuenta) VALUES (?,?,?,?,?)";
 		return insert(request,query);
 	}
 	
@@ -113,6 +121,7 @@ public class CuentaController extends ControladorBase<Cuenta>{
 			prepareStatement.setLong(2, cuenta.getOwner().getId());
 			prepareStatement.setString(3, cuenta.getNroCuenta());
 			prepareStatement.setDouble(4,cuenta.getBalance());
+			prepareStatement.setString(5, cuenta.getTipoCuenta());
 			response=prepareStatement.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

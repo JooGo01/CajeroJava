@@ -43,7 +43,8 @@ public class TransaccionMapper implements BaseMapper<Transaccion>{
 			PreparedStatement prepareStatement = ConectorBD.getInstance().getConnection().prepareStatement(sql);
 			prepareStatement.setLong(1, t.getId());
 			prepareStatement.setDate(2,(Date) t.getFechaTransaccion());
-			prepareStatement.setDouble(3, t.getMonto());
+			prepareStatement.setString(3,t.getTipoTransaccion());
+			prepareStatement.setDouble(4, t.getMonto());
 			prepareStatement.setLong(4, t.getNroTransaccion());
 			prepareStatement.setLong(5,t.getCuentaOrigen().getId());
 			return prepareStatement;

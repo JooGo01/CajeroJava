@@ -3,8 +3,8 @@ package entities;
 public class CuentaCorriente extends Cuenta {
 
 //Constructor
-	public CuentaCorriente(Long id, Cliente owner, String nroCuenta, Double balance) {
-		super(id, owner, nroCuenta, balance);
+	public CuentaCorriente(Long id, Cliente owner, String nroCuenta, Double balance,String tipoCuenta) {
+		super(id, owner, nroCuenta, balance, tipoCuenta);
 	}
 
 //Methods	

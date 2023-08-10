@@ -21,26 +21,31 @@ public class ClienteController extends ControladorBase<Cliente>{
 		ClienteMapper mappeador = new ClienteMapper();
 		try {
 			PreparedStatement prepareStatement = ConectorBD.getInstance().getConnection().prepareStatement(query);
-			if(request.getId()!=0) {
+			if(request.getId()!=null) {
 				prepareStatement.setLong(1, request.getId());
 			}
 			if(request.getNombre()!=null) {
-				prepareStatement.setString(2, request.getNombre());
+				prepareStatement.setString(1, request.getNombre());
 			}
 			if(request.getDireccion()!=null) {
-				prepareStatement.setString(3, request.getDireccion());
+				prepareStatement.setString(1, request.getDireccion());
 			}
 			if(request.getNumeroTarjeta()!=null) {
-				prepareStatement.setString(4, request.getNumeroTarjeta());
+				prepareStatement.setString(1, request.getNumeroTarjeta());
 			}
 			if(request.getContrasenia()!=null) {
-				prepareStatement.setString(5, request.getContrasenia());
+				prepareStatement.setString(1, request.getContrasenia());
 			}
 			if(request.getUsuario()!=null) {
-				prepareStatement.setString(6, request.getUsuario());
+				prepareStatement.setString(1, request.getUsuario());
 			}
-			if(request.getPin()!=0) {
-				prepareStatement.setInt(7, request.getPin());
+			if(request.getPin()!=null) {
+				prepareStatement.setInt(1, request.getPin());
+			}
+			
+			ResultSet resultado = prepareStatement.executeQuery();
+			while(resultado.next()) {
+				response.add(mappeador.toEntity(resultado));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

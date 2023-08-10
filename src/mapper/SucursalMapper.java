@@ -13,7 +13,7 @@ public class SucursalMapper implements BaseMapper<Sucursal>{
 		Sucursal resultado = new Sucursal();
 		try {
 			//faltan los .set
-			resultado.setId(resultSet.getLong("id"));
+			resultado.setId(resultSet.getLong("id_sucursal"));
 			resultado.setCodigo(resultSet.getString("codigo"));
 			resultado.setDireccion(resultSet.getString("direccion"));
 			resultado.setNombre(resultSet.getString("nombre"));

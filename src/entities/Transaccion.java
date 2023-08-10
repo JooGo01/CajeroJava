@@ -1,7 +1,13 @@
 package entities;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import controlador.ClienteController;
+import controlador.CuentaController;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Transaccion implements BaseEntity<Transaccion> {
 //Properties
@@ -85,7 +91,21 @@ public class Transaccion implements BaseEntity<Transaccion> {
 	@Override
 	public void toEntity(ResultSet resultSet) {
 		// TODO Auto-generated method stub
-		
+		CuentaController cc= new CuentaController();
+		Cuenta c = new Cuenta();
+		List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
+		try {
+			this.setId(resultSet.getLong("id_transaccion"));
+			this.setFechaTransaccion(resultSet.getDate("fecha_transaccion"));
+			this.setTipoTransaccion(resultSet.getString("tipo_transaccion"));
+			this.setMonto(resultSet.getDouble("monto"));
+			this.setNroTransaccion(resultSet.getLong("nro_transaccion"));
+			listaCuenta=cc.getById(resultSet.getLong("cuenta_id_cuenta"));
+			c=listaCuenta.get(0);
+			this.setCuentaOrigen(c);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public ResultSet toResultSet(Transaccion resultSet) {

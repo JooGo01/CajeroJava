@@ -19,14 +19,19 @@ public class CuentaMapper implements BaseMapper<Cuenta>{
 		Cuenta resultado = new Cuenta();
 		List<Cliente> cliente= new ArrayList<>();
 		ClienteController cc = new ClienteController();
+		Cliente cli = new Cliente();
 		
 		try {
 			//faltan los .set
-			resultado.setId(resultSet.getLong("id"));
-			cliente=cc.getById(resultSet.getLong("id_cuenta_cliente"));
-			resultado.setOwner(cliente.get(0));
-			resultado.setNroCuenta(resultSet.getString("nroCuenta"));
+			resultado.setId(resultSet.getLong("id_cuenta"));
+			cliente=cc.getById(resultSet.getLong("cliente_id_cliente"));
+			if(cliente.size()>0) {
+				cli=cliente.get(0);
+				resultado.setOwner(cli);
+			}
+			resultado.setNroCuenta(resultSet.getString("nro_cuenta"));
 			resultado.setBalance(resultSet.getDouble("balance"));
+			resultado.setTipoCuenta(resultSet.getString("tipo_cuenta"));
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,6 +48,7 @@ public class CuentaMapper implements BaseMapper<Cuenta>{
 			prepareStatement.setLong(2, t.getOwner().getId());
 			prepareStatement.setString(3, t.getNroCuenta());
 			prepareStatement.setDouble(4, t.getBalance());
+			prepareStatement.setString(5, t.getTipoCuenta());
 			return prepareStatement;
 		}catch(SQLException e) {
 			e.printStackTrace();

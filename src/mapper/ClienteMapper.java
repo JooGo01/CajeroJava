@@ -13,10 +13,10 @@ public class ClienteMapper implements BaseMapper<Cliente>{
 		// TODO Auto-generated method stub
 		Cliente resultado=new Cliente();
 		try {
-			resultado.setId(resultSet.getLong("id"));
+			resultado.setId(resultSet.getLong("id_cliente"));
 			resultado.setNombre(resultSet.getString("nombre"));
 			resultado.setDireccion(resultSet.getString("direccion"));
-			resultado.setNumeroTarjeta(resultSet.getString("numeroTarjeta"));
+			resultado.setNumeroTarjeta(resultSet.getString("numero_tarjeta"));
 			resultado.setContrasenia(resultSet.getString("contrasenia"));
 			resultado.setUsuario(resultSet.getString("usuario"));
 			resultado.setPin(resultSet.getInt("pin"));

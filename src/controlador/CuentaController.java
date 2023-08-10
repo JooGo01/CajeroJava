@@ -21,17 +21,20 @@ public class CuentaController extends ControladorBase<Cuenta>{
 		CuentaMapper mappeador = new CuentaMapper();
 		try {
 			PreparedStatement prepareStatement = ConectorBD.getInstance().getConnection().prepareStatement(query);
-			if(request.getId()!=0) {
+			if(request.getId()!=null) {
 				prepareStatement.setLong(1, request.getId());
 			}
 			if(request.getOwner()!=null) {
-				prepareStatement.setObject(2, request.getOwner());
+				prepareStatement.setLong(1, request.getOwner().getId());
 			}
 			if(request.getNroCuenta()!=null) {
-				prepareStatement.setString(3, request.getNroCuenta());
+				prepareStatement.setString(1, request.getNroCuenta());
 			}
 			if(request.getBalance()!=null) {
-				prepareStatement.setDouble(4, request.getBalance());
+				prepareStatement.setDouble(1, request.getBalance());
+			}
+			if(request.getTipoCuenta()!=null) {
+				prepareStatement.setString(1, request.getTipoCuenta());
 			}
 			
 			ResultSet resultado = prepareStatement.executeQuery();
@@ -55,7 +58,7 @@ public class CuentaController extends ControladorBase<Cuenta>{
 	public List<Cuenta> getByOwner(Cliente cliente){
 		Cuenta cuenta = new Cuenta();
 		cuenta.setOwner(cliente);
-		String query = "Select * from CUENTA where CUENTA.id_cuenta_cliente= ?";
+		String query = "Select * from CUENTA where CUENTA.cliente_id_cliente= ?";
 		List<Cuenta> response = getByParameters(cuenta, query);
 		return response;
 	}

@@ -21,7 +21,7 @@ public class CajeroMapper implements BaseMapper<Cajero>{
 		SucursalController sc= new SucursalController();
 		try {
 			//faltan los .set
-			resultado.setId(resultSet.getLong("id"));
+			resultado.setId(resultSet.getLong("id_cajero"));
 			resultado.setUbicacion(resultSet.getString("ubicacion"));
 			sucursal=sc.getById(resultSet.getLong("id_sucursal"));
 			resultado.setSucursal(sucursal.get(0));

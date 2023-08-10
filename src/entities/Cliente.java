@@ -1,6 +1,11 @@
 package entities;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import controlador.*;
 
 public class Cliente implements BaseEntity<Cliente>{
 
@@ -93,6 +98,20 @@ public class Cliente implements BaseEntity<Cliente>{
 	@Override
 	public void toEntity(ResultSet resultSet) {
 		// TODO Auto-generated method stub
+		SucursalController sc= new SucursalController();
+		Sucursal s = new Sucursal();
+		List<Sucursal> listaSucursal = new ArrayList<Sucursal>();
+		try {
+			this.setId(resultSet.getLong("id_cliente"));
+			this.setNombre(resultSet.getString("nombre"));
+			this.setDireccion(resultSet.getString("direccion"));
+			this.setNumeroTarjeta(resultSet.getString("numero_tarjeta"));
+			this.setContrasenia(resultSet.getString("contrasenia"));
+			this.setUsuario(resultSet.getString("usuario"));
+			this.setPin(resultSet.getInt("pin"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 

@@ -1,6 +1,6 @@
 package controlador;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +28,7 @@ public class TransaccionController extends ControladorBase<Transaccion>{
 			}
 			
 			if(request.getFechaTransaccion()!=null) {
-				prepareStatement.setDate(2, request.getFechaTransaccion());
+				prepareStatement.setDate(2, (java.sql.Date) request.getFechaTransaccion());
 			}
 			
 			if(request.getMonto()!=0) {
@@ -129,7 +129,7 @@ public class TransaccionController extends ControladorBase<Transaccion>{
 	}
 	
 	public Integer insert(Transaccion request) {
-		String query = "INSERT INTO TRANSACCIONES(id_transaccion, fecha_transaccion, monto, nro_transaccion, cuenta_id_cuenta, tipo_transaccion) VALUES (?,?,?,?,?,?)";
+		String query = "INSERT INTO TRANSACCION(id_transaccion, fecha_transaccion, monto, nro_transaccion, cuenta_id_cuenta, tipo_transaccion) VALUES (?,?,?,?,?,?)";
 		return insert(request, query);
 	}
 	
@@ -139,11 +139,12 @@ public class TransaccionController extends ControladorBase<Transaccion>{
 		try {
 			PreparedStatement prepareStatement=ConectorBD.getInstance().getConnection().prepareStatement(sql);
 			prepareStatement.setLong(1, transaccion.getId());
-			prepareStatement.setDate(2, transaccion.getFechaTransaccion());
+			prepareStatement.setDate(2, (java.sql.Date) transaccion.getFechaTransaccion());
 			prepareStatement.setDouble(3, transaccion.getMonto());
 			prepareStatement.setLong(4, transaccion.getNroTransaccion());
 			prepareStatement.setLong(5, transaccion.getCuentaOrigen().getId());
 			prepareStatement.setString(6, transaccion.getTipoTransaccion());
+			System.out.println(prepareStatement);
 			response=prepareStatement.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();

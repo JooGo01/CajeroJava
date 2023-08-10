@@ -1,6 +1,11 @@
 package entities;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import controlador.SucursalController;
 
 public class Sucursal implements BaseEntity<Sucursal>{
 
@@ -61,7 +66,14 @@ public class Sucursal implements BaseEntity<Sucursal>{
 	@Override
 	public void toEntity(ResultSet resultSet) {
 		// TODO Auto-generated method stub
-		
+		try {
+			this.setId(resultSet.getLong("id_sucursal"));
+			this.setCodigo(resultSet.getString("codigo"));
+			this.setDireccion(resultSet.getString("direccion"));
+			this.setNombre(resultSet.getString("nombre"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

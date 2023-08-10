@@ -82,7 +82,7 @@ public class SistemaCajero {
         Long tokenNumber = random.nextLong(90000000) + 10000000;
         numero_transaccion=tokenNumber;
         id_transaccion=getLastIdTransaccion()+1;
-        Transferencia tforig_dest= new Transferencia(tokenNumber, sqlDate, monto*-1, tokenNumber, cuentaOrigen, cuentaDestino, "Envia Transferencia", "Transferencia");
+        Transferencia tforig_dest= new Transferencia(id_transaccion, sqlDate, monto*-1, tokenNumber, cuentaOrigen, cuentaDestino, "Envia Transferencia", "Transferencia");
         tc.insert(tforig_dest);
         controladorBase.ejecutarUpdate("UPDATE CUENTA SET BALANCE=" + (cuentaOrigen.getBalance()-monto) + " WHERE ID_CUENTA=" + cuentaOrigen.getId());
         id_transaccion=getLastIdTransaccion()+1;
